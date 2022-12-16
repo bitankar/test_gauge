@@ -55,11 +55,12 @@ func countVowels(word string) int {
 }
 
 var _ = gauge.Step("All tkn version should be as below <table>", func(tbl *m.Table) {
-	out, err := exec.Command("/usr/bin/tkn version").Output()
+	out, err := exec.Command("tkn", "version").Output()
 	if err != nil {
-		fmt.Println("Error getting tkn version", err)
+		T.Fail(fmt.Errorf("Error getting tkn version : %s", err))
 	} else {
-		fmt.Println(out)
+		op := string(out)
+		fmt.Println(op)
 	}
 	for _, row := range tbl.Rows {
 		tool := row.Cells[0]
