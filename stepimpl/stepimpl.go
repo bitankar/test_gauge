@@ -2,6 +2,7 @@ package stepImpl
 
 import (
 	"fmt"
+	"os/exec"
 	"strconv"
 
 	"github.com/getgauge-contrib/gauge-go/gauge"
@@ -52,3 +53,24 @@ func countVowels(word string) int {
 	}
 	return vowelCount
 }
+
+var _ = gauge.Step("All tkn version should be as below <table>", func(tbl *m.Table) {
+	out, err := exec.Command("/usr/bin/tkn version").Output()
+	if err != nil {
+		fmt.Println("Error getting tkn version", err)
+	} else {
+		fmt.Println(out)
+	}
+	for _, row := range tbl.Rows {
+		tool := row.Cells[0]
+		expectedVersion := row.Cells[1]
+		fmt.Println(tool, expectedVersion)
+		// if err != nil {
+		// 	T.Fail(fmt.Errorf("Failed to parse string %s to integer", row.Cells[1]))
+		// }
+		// actualCount := countVowels(word)
+		// if actualCount != expectedCount {
+		// 	T.Fail(fmt.Errorf("Vowel count in word %s - got: %d, want: %d", word, actualCount, expectedCount))
+		// }
+	}
+})
