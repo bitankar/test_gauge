@@ -75,7 +75,7 @@ var _ = gauge.Step("All tkn version should be as below <table>", func(tbl *m.Tab
 		expectedVersion := strings.ReplaceAll(strings.ToLower(row.Cells[1]), `v`, ``)
 		// fmt.Printf("checking for tool :  %v - got: %v, want: %v", tool, x[tool], expectedVersion)
 		if tkn_version_map[tool] != expectedVersion {
-			T.Fail(fmt.Errorf("version mismatch for tool :  %v - got: %v, want: %v", tool, x[tool], expectedVersion))
+			T.Fail(fmt.Errorf("version mismatch for tool :  %v - got: %v, want: %v", tool, tkn_version_map[tool], expectedVersion))
 		}
 	}
 })
