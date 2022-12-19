@@ -8,7 +8,9 @@ import (
 	"strings"
 
 	"github.com/getgauge-contrib/gauge-go/gauge"
+	"github.com/getgauge-contrib/gauge-go/gauge_messages"
 	m "github.com/getgauge-contrib/gauge-go/models"
+	"github.com/getgauge-contrib/gauge-go/testsuit"
 	. "github.com/getgauge-contrib/gauge-go/testsuit"
 )
 
@@ -79,3 +81,18 @@ var _ = gauge.Step("All tkn version should be as below <table>", func(tbl *m.Tab
 		}
 	}
 })
+
+var _ = gauge.BeforeScenario(func(exInfo *gauge_messages.ExecutionInfo) {
+	_, err1 := exec.Command("tkn", "version").Output()
+	if err1 != nil {
+		_, err2 := exec.Command("yum", "install", "openshift-pipelines-client").Output()
+		if err2 != nil {
+			fmt.Println("Install TKN failed.", err2)
+		} else {
+			fmt.Println("successfully install TKN")
+		}
+	} else {
+		fmt.Println("tkn is already present, setup successful")
+	}
+	//yum install openshift-pipelines-client
+}, []string{"s1t1"}, testsuit.AND)

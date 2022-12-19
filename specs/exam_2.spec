@@ -2,6 +2,8 @@
 
 ## Scenarion for testing pipeline version
 
+tags: s1t1
+
 This is the a comment for the scenario
 we are passing a spec table for the verification.
 
