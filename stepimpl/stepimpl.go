@@ -85,9 +85,10 @@ var _ = gauge.Step("All tkn version should be as below <table>", func(tbl *m.Tab
 var _ = gauge.BeforeScenario(func(exInfo *gauge_messages.ExecutionInfo) {
 	_, err1 := exec.Command("tkn", "version").Output()
 	if err1 != nil {
-		_, err2 := exec.Command("yum", "install", "openshift-pipelines-client").Output()
+		_, err2 := exec.Command("wget", "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/pipeline/0.24.1/tkn-linux-arm64.tar.gz", "&&",
+			"tar", "-zvxf", "tkn-linux-arm64.tar.gz", "&&", "cp", "tkn", "/usr/local/bin/").Output()
 		if err2 != nil {
-			fmt.Println("Install TKN failed.", err2)
+			T.Fail(fmt.Errorf("Install tkn failed, %v ", err2))
 		} else {
 			fmt.Println("successfully install TKN")
 		}
